@@ -349,9 +349,31 @@ export const DOKUMENTY = {
 /* Strona                                                              */
 /* ------------------------------------------------------------------ */
 
+const ADRES_DOMYSLNY = "https://drosport.pl";
+
+/**
+ * Adres produkcyjny, nadpisywany zmienną NEXT_PUBLIC_ADRES_STRONY.
+ *
+ * Wartość pochodzi z panelu hostingu, więc łatwo o wpis bez protokołu albo
+ * z ukośnikiem na końcu. Ponieważ trafia do `new URL()` w metadanych układu,
+ * błędna wartość przerwałaby budowanie na etapie zbierania danych stron.
+ * Dlatego jest tu normalizowana, a przy wartości nie do naprawienia
+ * podstawiany jest adres domyślny.
+ */
+function adresStrony(): string {
+  const surowy = process.env.NEXT_PUBLIC_ADRES_STRONY?.trim();
+  if (!surowy) return ADRES_DOMYSLNY;
+
+  const zProtokolem = /^https?:\/\//i.test(surowy) ? surowy : `https://${surowy}`;
+  try {
+    return new URL(zProtokolem).origin;
+  } catch {
+    return ADRES_DOMYSLNY;
+  }
+}
+
 export const STRONA = {
-  // Adres produkcyjny. Ustawiany też przez zmienną NEXT_PUBLIC_ADRES_STRONY.
-  adres: process.env.NEXT_PUBLIC_ADRES_STRONY ?? "https://drosport.pl",
+  adres: adresStrony(),
 } as const;
 
 export const NAWIGACJA = [
