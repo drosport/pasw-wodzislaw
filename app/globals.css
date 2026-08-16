@@ -1,0 +1,1266 @@
+/* ==================================================================
+   Pszczyńska Akademia Sztuk Walki, sekcja Wodzisław Śląski
+   Arkusz podstawowy
+   ================================================================== */
+
+:root {
+  --czarny: #111214;
+  --czarny-glebszy: #08090a;
+  --czarny-panel: #191b1d;
+  --bialy: #ffffff;
+
+  --tlo: #ffffff;
+  --tlo-alt: #f5f5f3;
+  --tlo-akcent: #faf3f3;
+
+  --tekst: #17181a;
+  --tekst-drugi: #55595e;
+  --tekst-trzeci: #6b6f74;
+  --tekst-na-ciemnym: #e8e8e6;
+  --tekst-drugi-na-ciemnym: #a5a8ab;
+  --tekst-trzeci-na-ciemnym: #8b8f93;
+
+  --linia: #e3e3e0;
+  --linia-mocna: #c8c8c4;
+  --linia-pola: #8a8a85;
+  --linia-ciemna: #2c2f32;
+
+  --akcent: #a8171c;
+  --akcent-ciemny: #851216;
+  --akcent-na-ciemnym: #e0575c;
+
+  --szer-strony: 1200px;
+  --szer-tekstu: 68ch;
+
+  --odstep-sekcji: 104px;
+  --odstep-sekcji-maly: 72px;
+
+  --font-naglowek: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --font-tekst: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--tlo);
+  color: var(--tekst);
+  font-family: var(--font-tekst);
+  font-size: 16.5px;
+  line-height: 1.72;
+  font-weight: 400;
+  letter-spacing: -0.003em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+/* ------------------------------------------------------------------
+   Typografia
+   ------------------------------------------------------------------ */
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--font-naglowek);
+  font-weight: 600;
+  letter-spacing: -0.021em;
+  line-height: 1.16;
+  color: var(--tekst);
+  margin: 0 0 0.6em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2.15rem, 1.35rem + 2.5vw, 3.45rem);
+  letter-spacing: -0.028em;
+}
+
+h2 {
+  font-size: clamp(1.7rem, 1.25rem + 1.6vw, 2.5rem);
+  letter-spacing: -0.025em;
+}
+
+h3 {
+  font-size: clamp(1.18rem, 1.05rem + 0.45vw, 1.42rem);
+}
+
+h4 {
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0 0 1.15em;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+a {
+  color: var(--akcent);
+  text-decoration: none;
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+:focus-visible {
+  outline: 2px solid var(--akcent);
+  outline-offset: 3px;
+}
+
+strong {
+  font-weight: 600;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--linia);
+  margin: 40px 0;
+}
+
+/* ------------------------------------------------------------------
+   Układ
+   ------------------------------------------------------------------ */
+
+.kontener {
+  width: 100%;
+  max-width: var(--szer-strony);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.kontener-waski {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.sekcja {
+  padding: var(--odstep-sekcji) 0;
+}
+
+.sekcja-mala {
+  padding: var(--odstep-sekcji-maly) 0;
+}
+
+.sekcja-alt {
+  background: var(--tlo-alt);
+}
+
+.sekcja-ciemna {
+  background: var(--czarny);
+  color: var(--tekst-na-ciemnym);
+}
+
+.sekcja-ciemna h1,
+.sekcja-ciemna h2,
+.sekcja-ciemna h3,
+.sekcja-ciemna h4 {
+  color: var(--bialy);
+}
+
+.sekcja-ciemna a:not(.przycisk):not(.link-dalej) {
+  color: var(--akcent-na-ciemnym);
+}
+
+.sekcja + .sekcja-alt,
+.sekcja-alt + .sekcja {
+  border-top: 1px solid var(--linia);
+}
+
+/* ------------------------------------------------------------------
+   Nagłówki sekcji
+   ------------------------------------------------------------------ */
+
+.etykieta {
+  display: block;
+  font-family: var(--font-naglowek);
+  font-size: 0.735rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--akcent);
+  margin: 0 0 18px;
+}
+
+.etykieta::before {
+  content: "";
+  display: inline-block;
+  width: 26px;
+  height: 2px;
+  background: var(--akcent);
+  vertical-align: 0.28em;
+  margin-right: 12px;
+}
+
+.sekcja-ciemna .etykieta {
+  color: var(--akcent-na-ciemnym);
+}
+
+.sekcja-ciemna .etykieta::before {
+  background: var(--akcent-na-ciemnym);
+}
+
+.naglowek-sekcji {
+  max-width: 720px;
+  margin-bottom: 52px;
+}
+
+.naglowek-sekcji h2 {
+  margin-bottom: 0.5em;
+}
+
+.wprowadzenie {
+  font-size: 1.115rem;
+  line-height: 1.68;
+  color: var(--tekst-drugi);
+  max-width: 62ch;
+}
+
+.sekcja-ciemna .wprowadzenie {
+  color: var(--tekst-drugi-na-ciemnym);
+}
+
+/* ------------------------------------------------------------------
+   Przyciski
+   ------------------------------------------------------------------ */
+
+.przycisk {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-naglowek);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  line-height: 1;
+  padding: 17px 30px;
+  border: 1px solid transparent;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: background-color 0.16s ease, color 0.16s ease,
+    border-color 0.16s ease;
+  text-decoration: none;
+}
+
+.przycisk:hover {
+  text-decoration: none;
+}
+
+.przycisk-glowny {
+  background: var(--akcent);
+  border-color: var(--akcent);
+  color: var(--bialy);
+}
+
+.przycisk-glowny:hover {
+  background: var(--akcent-ciemny);
+  border-color: var(--akcent-ciemny);
+  color: var(--bialy);
+}
+
+.przycisk-obrys {
+  background: transparent;
+  border-color: var(--linia-pola);
+  color: var(--tekst);
+}
+
+.przycisk-obrys:hover {
+  border-color: var(--czarny);
+  background: var(--czarny);
+  color: var(--bialy);
+}
+
+.sekcja-ciemna .przycisk-obrys {
+  border-color: #666b70;
+  color: var(--bialy);
+}
+
+.sekcja-ciemna .przycisk-obrys:hover {
+  background: var(--bialy);
+  border-color: var(--bialy);
+  color: var(--czarny);
+}
+
+.przycisk-maly {
+  padding: 12px 20px;
+  font-size: 0.82rem;
+}
+
+.grupa-przyciskow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* Odnośnik tekstowy z podkreśleniem, styl redakcyjny */
+.link-dalej {
+  font-family: var(--font-naglowek);
+  font-size: 0.87rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--tekst);
+  border-bottom: 2px solid var(--akcent);
+  padding-bottom: 3px;
+  display: inline-block;
+}
+
+.link-dalej:hover {
+  text-decoration: none;
+  color: var(--akcent);
+}
+
+.sekcja-ciemna .link-dalej {
+  color: var(--bialy);
+  border-bottom-color: var(--akcent-na-ciemnym);
+}
+
+.sekcja-ciemna .link-dalej:hover {
+  color: var(--akcent-na-ciemnym);
+}
+
+/* ------------------------------------------------------------------
+   Siatki
+   ------------------------------------------------------------------ */
+
+.siatka-2,
+.siatka-3,
+.siatka-4 {
+  display: grid;
+  gap: 1px;
+  background: var(--linia);
+  border: 1px solid var(--linia);
+}
+
+.siatka-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.siatka-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.siatka-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.siatka-2 > *,
+.siatka-3 > *,
+.siatka-4 > * {
+  background: var(--tlo);
+  padding: 38px 34px;
+}
+
+.sekcja-alt .siatka-2 > *,
+.sekcja-alt .siatka-3 > *,
+.sekcja-alt .siatka-4 > * {
+  background: var(--tlo-alt);
+}
+
+.kolumny-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 56px;
+}
+
+.kolumny-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 48px;
+}
+
+.uklad-tresci {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 72px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .siatka-3,
+  .siatka-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .kolumny-2,
+  .kolumny-3,
+  .uklad-tresci {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 44px;
+  }
+}
+
+@media (max-width: 560px) {
+  .siatka-2,
+  .siatka-3,
+  .siatka-4 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .siatka-2 > *,
+  .siatka-3 > *,
+  .siatka-4 > * {
+    padding: 30px 26px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Kafle treści
+   ------------------------------------------------------------------ */
+
+.kafel h3 {
+  margin-bottom: 0.55em;
+}
+
+.kafel p {
+  color: var(--tekst-drugi);
+  font-size: 0.965rem;
+  line-height: 1.68;
+}
+
+.kafel-numer {
+  font-family: var(--font-naglowek);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--akcent);
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* Blok faktów, np. dane rejestrowe */
+.blok-danych {
+  border: 1px solid var(--linia);
+  padding: 34px 32px;
+  background: var(--tlo);
+}
+
+.sekcja-alt .blok-danych {
+  background: var(--bialy);
+}
+
+.blok-danych h3 {
+  font-size: 1.05rem;
+  margin-bottom: 20px;
+}
+
+.lista-danych {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px 24px;
+  font-size: 0.94rem;
+}
+
+.lista-danych dt {
+  color: var(--tekst-trzeci);
+  white-space: nowrap;
+}
+
+.lista-danych dd {
+  margin: 0;
+  color: var(--tekst);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------
+   Listy
+   ------------------------------------------------------------------ */
+
+.lista-kreski {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.lista-kreski > li {
+  position: relative;
+  padding-left: 26px;
+  margin-bottom: 12px;
+  color: var(--tekst-drugi);
+}
+
+.lista-kreski > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 12px;
+  height: 1px;
+  background: var(--akcent);
+}
+
+.lista-kreski > li:last-child {
+  margin-bottom: 0;
+}
+
+.sekcja-ciemna .lista-kreski > li {
+  color: var(--tekst-drugi-na-ciemnym);
+}
+
+.sekcja-ciemna .lista-kreski > li::before {
+  background: var(--akcent-na-ciemnym);
+}
+
+/* Lista rozdzielona liniami, do harmonogramu i podobnych zestawień */
+.lista-linie {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--linia);
+}
+
+.lista-linie > li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--linia);
+}
+
+.lista-linie .etykieta-wiersza {
+  font-weight: 600;
+}
+
+.lista-linie .wartosc-wiersza {
+  color: var(--tekst-drugi);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* ------------------------------------------------------------------
+   Tabele
+   ------------------------------------------------------------------ */
+
+.tabela-otoczka {
+  overflow-x: auto;
+  border: 1px solid var(--linia);
+  background: var(--tlo);
+}
+
+.sekcja-alt .tabela-otoczka {
+  background: var(--bialy);
+}
+
+table.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  min-width: 560px;
+}
+
+table.tabela caption {
+  text-align: left;
+  font-family: var(--font-naglowek);
+  font-weight: 600;
+  font-size: 1.02rem;
+  padding: 22px 26px 0;
+  color: var(--tekst);
+}
+
+table.tabela th,
+table.tabela td {
+  padding: 15px 26px;
+  text-align: left;
+  border-bottom: 1px solid var(--linia);
+  vertical-align: top;
+}
+
+table.tabela thead th {
+  background: var(--czarny);
+  color: var(--bialy);
+  font-family: var(--font-naglowek);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+  border-bottom: 0;
+  white-space: nowrap;
+}
+
+table.tabela tbody tr:last-child th,
+table.tabela tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+table.tabela tbody th {
+  font-weight: 600;
+  color: var(--tekst);
+}
+
+table.tabela td.kwota {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.kwota-przed {
+  color: var(--tekst-trzeci);
+  text-decoration: line-through;
+  font-weight: 400;
+  margin-right: 8px;
+}
+
+.kwota-po {
+  color: var(--akcent);
+  font-weight: 600;
+}
+
+.przypis-tabeli {
+  font-size: 0.88rem;
+  color: var(--tekst-trzeci);
+  margin-top: 16px;
+  line-height: 1.6;
+}
+
+/* ------------------------------------------------------------------
+   Dokumenty prawne
+   ------------------------------------------------------------------ */
+
+.dokument {
+  max-width: var(--szer-tekstu);
+}
+
+.dokument h2 {
+  font-size: 1.32rem;
+  letter-spacing: -0.015em;
+  margin-top: 56px;
+  padding-top: 26px;
+  border-top: 1px solid var(--linia);
+}
+
+.dokument > h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.dokument h3 {
+  font-size: 1.02rem;
+  margin-top: 34px;
+  margin-bottom: 0.7em;
+}
+
+.dokument p,
+.dokument li {
+  color: var(--tekst-drugi);
+  font-size: 1rem;
+}
+
+.dokument ol,
+.dokument ul {
+  padding-left: 22px;
+  margin: 0 0 1.15em;
+}
+
+.dokument li {
+  margin-bottom: 9px;
+}
+
+.dokument ol ol {
+  margin-top: 9px;
+  list-style: lower-latin;
+}
+
+.dokument .tabela-otoczka {
+  margin: 26px 0 30px;
+}
+
+.metryka-dokumentu {
+  border-left: 2px solid var(--akcent);
+  padding: 4px 0 4px 22px;
+  margin-bottom: 46px;
+  font-size: 0.92rem;
+  color: var(--tekst-trzeci);
+}
+
+.spis-tresci {
+  border: 1px solid var(--linia);
+  padding: 28px 30px;
+  margin-bottom: 52px;
+  background: var(--tlo-alt);
+}
+
+.spis-tresci h2 {
+  font-size: 0.78rem;
+  font-family: var(--font-naglowek);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tekst-trzeci);
+  margin: 0 0 16px;
+  border: 0;
+  padding: 0;
+}
+
+.spis-tresci ol {
+  margin: 0;
+  padding-left: 20px;
+  columns: 2;
+  column-gap: 40px;
+}
+
+.spis-tresci li {
+  margin-bottom: 7px;
+  font-size: 0.92rem;
+  break-inside: avoid;
+}
+
+.spis-tresci a {
+  color: var(--tekst-drugi);
+}
+
+.spis-tresci a:hover {
+  color: var(--akcent);
+}
+
+@media (max-width: 640px) {
+  .spis-tresci ol {
+    columns: 1;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Formularze
+   ------------------------------------------------------------------ */
+
+.formularz {
+  display: grid;
+  gap: 22px;
+}
+
+.pole {
+  display: grid;
+  gap: 8px;
+}
+
+.pole label,
+.legenda {
+  font-family: var(--font-naglowek);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  color: var(--tekst);
+}
+
+.pole .wymagane {
+  color: var(--akcent);
+}
+
+.pole input,
+.pole select,
+.pole textarea {
+  font-family: var(--font-tekst);
+  font-size: 1rem;
+  color: var(--tekst);
+  background: var(--bialy);
+  border: 1px solid var(--linia-pola);
+  border-radius: 1px;
+  padding: 13px 15px;
+  width: 100%;
+  transition: border-color 0.16s ease;
+}
+
+.pole input:focus,
+.pole select:focus,
+.pole textarea:focus {
+  border-color: var(--czarny);
+  outline: 2px solid var(--akcent);
+  outline-offset: 1px;
+}
+
+.pole textarea {
+  min-height: 140px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.pole-podpowiedz {
+  font-size: 0.86rem;
+  color: var(--tekst-trzeci);
+  line-height: 1.55;
+}
+
+.para-pol {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+@media (max-width: 640px) {
+  .para-pol {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.zgoda {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+  border-top: 1px solid var(--linia);
+  padding-top: 20px;
+}
+
+.zgoda input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  accent-color: var(--akcent);
+  flex-shrink: 0;
+}
+
+.zgoda label {
+  font-family: var(--font-tekst);
+  font-size: 0.92rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--tekst-drugi);
+  line-height: 1.6;
+}
+
+.pole-ukryte {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.komunikat {
+  border: 1px solid var(--linia);
+  border-left: 3px solid var(--tekst-trzeci);
+  padding: 16px 20px;
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+
+.komunikat-blad {
+  border-left-color: var(--akcent);
+  background: var(--tlo-akcent);
+  color: var(--tekst);
+}
+
+.komunikat-sukces {
+  border-left-color: var(--czarny);
+  background: var(--tlo-alt);
+  color: var(--tekst);
+}
+
+/* ------------------------------------------------------------------
+   Elementy pomocnicze
+   ------------------------------------------------------------------ */
+
+.brak-danych {
+  color: var(--akcent);
+  border-bottom: 1px dashed var(--akcent);
+  font-style: normal;
+}
+
+.sekcja-ciemna .brak-danych,
+.stopka .brak-danych {
+  color: var(--akcent-na-ciemnym);
+  border-bottom-color: var(--akcent-na-ciemnym);
+}
+
+.tekst-drugi {
+  color: var(--tekst-drugi);
+}
+
+.tylko-dla-czytnikow {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.pomin-do-tresci {
+  position: absolute;
+  left: 16px;
+  top: -60px;
+  z-index: 200;
+  background: var(--czarny);
+  color: var(--bialy);
+  padding: 12px 20px;
+  font-size: 0.9rem;
+  transition: top 0.16s ease;
+}
+
+.pomin-do-tresci:focus {
+  top: 16px;
+  text-decoration: none;
+}
+
+/* ------------------------------------------------------------------
+   Logotypy metod płatności
+   ------------------------------------------------------------------ */
+
+.logotypy {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.logotypy li {
+  border: 1px solid var(--linia-pola);
+  background: var(--bialy);
+  border-radius: 2px;
+  min-width: 92px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  font-family: var(--font-naglowek);
+  font-size: 0.83rem;
+  font-weight: 700;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+  color: var(--tekst);
+}
+
+.logotypy img {
+  max-height: 26px;
+  width: auto;
+}
+
+/* ------------------------------------------------------------------
+   Kroki procesu
+   ------------------------------------------------------------------ */
+
+.kroki {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: krok;
+  border-top: 1px solid var(--linia);
+}
+
+.kroki > li {
+  counter-increment: krok;
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 24px;
+  padding: 26px 0;
+  border-bottom: 1px solid var(--linia);
+  align-items: start;
+}
+
+.kroki > li::before {
+  content: counter(krok, decimal-leading-zero);
+  font-family: var(--font-naglowek);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--akcent);
+  letter-spacing: 0.06em;
+  padding-top: 2px;
+}
+
+.kroki h3 {
+  font-size: 1.02rem;
+  margin-bottom: 0.45em;
+}
+
+.kroki p {
+  color: var(--tekst-drugi);
+  font-size: 0.97rem;
+  margin: 0;
+}
+
+@media (max-width: 560px) {
+  .kroki > li {
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 16px;
+  }
+}
+
+/* Listy wypunktowane w dokumentach, znacznikiem jest kreska */
+.dokument ul {
+  list-style: none;
+  padding-left: 24px;
+}
+
+.dokument ul > li {
+  position: relative;
+}
+
+.dokument ul > li::before {
+  content: "";
+  position: absolute;
+  left: -24px;
+  top: 0.78em;
+  width: 12px;
+  height: 1px;
+  background: var(--akcent);
+}
+
+.dokument ol > li::marker {
+  color: var(--tekst-trzeci);
+  font-variant-numeric: tabular-nums;
+}
+
+.zalacznik {
+  border: 1px solid var(--linia);
+  background: var(--tlo-alt);
+  padding: 32px 34px;
+  margin-top: 26px;
+}
+
+.zalacznik p {
+  color: var(--tekst);
+}
+
+.zalacznik .linia-do-wypelnienia {
+  display: block;
+  border-bottom: 1px solid var(--linia-mocna);
+  height: 1.6em;
+  margin: 6px 0 18px;
+  max-width: 380px;
+}
+
+
+/* ------------------------------------------------------------------
+   Godło na ciemnym tle
+   ------------------------------------------------------------------ */
+
+/* Jeden plik SVG obsługuje oba warianty. Godło jest jednobarwne,
+   więc na ciemnych sekcjach wystarczy odwrócenie barw. */
+.godlo-odwrocone {
+  filter: invert(1);
+}
+
+/* ------------------------------------------------------------------
+   Ekrany wąskie
+   ------------------------------------------------------------------ */
+
+@media (max-width: 900px) {
+  :root {
+    --odstep-sekcji: 68px;
+    --odstep-sekcji-maly: 52px;
+  }
+
+  body {
+    font-size: 16.5px;
+    line-height: 1.68;
+  }
+
+  .naglowek-sekcji {
+    margin-bottom: 36px;
+  }
+
+  .wprowadzenie {
+    font-size: 1.05rem;
+  }
+
+  .blok-danych {
+    padding: 28px 26px;
+  }
+
+  .kolumny-2,
+  .kolumny-3 {
+    gap: 32px;
+  }
+}
+
+@media (max-width: 620px) {
+  .kontener,
+  .kontener-waski {
+    padding: 0 20px;
+  }
+
+  :root {
+    --odstep-sekcji: 56px;
+    --odstep-sekcji-maly: 44px;
+  }
+
+  .przycisk {
+    padding: 15px 24px;
+  }
+
+  .grupa-przyciskow {
+    gap: 10px;
+  }
+
+  .grupa-przyciskow .przycisk {
+    flex: 1 1 auto;
+  }
+
+  .lista-danych {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px 0;
+  }
+
+  .lista-danych dt {
+    color: var(--tekst-trzeci);
+    font-size: 0.86rem;
+    white-space: normal;
+  }
+
+  .lista-danych dd {
+    margin-bottom: 14px;
+  }
+
+  .lista-danych dd:last-child {
+    margin-bottom: 0;
+  }
+
+  .lista-linie > li {
+    flex-direction: column;
+    gap: 2px;
+    align-items: flex-start;
+  }
+
+  .lista-linie .wartosc-wiersza {
+    text-align: left;
+  }
+
+  .spis-tresci {
+    padding: 22px 22px;
+  }
+
+  .zalacznik {
+    padding: 24px 22px;
+  }
+
+  .dokument h2 {
+    margin-top: 40px;
+    padding-top: 22px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Tabele na wąskich ekranach, układ pionowy zamiast przewijania
+   ------------------------------------------------------------------ */
+
+@media (max-width: 760px) {
+  .tabela-otoczka {
+    overflow-x: visible;
+    border: 0;
+    background: transparent;
+  }
+
+  .sekcja-alt .tabela-otoczka {
+    background: transparent;
+  }
+
+  table.tabela {
+    display: block;
+    min-width: 0;
+    font-size: 0.96rem;
+  }
+
+  table.tabela caption {
+    padding: 0 0 14px;
+    font-size: 0.98rem;
+  }
+
+  table.tabela thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  table.tabela tbody {
+    display: block;
+    border-top: 1px solid var(--linia);
+  }
+
+  table.tabela tbody tr {
+    display: block;
+    border: 1px solid var(--linia);
+    border-top: 0;
+    background: var(--tlo);
+    padding: 0 20px 14px;
+  }
+
+  .sekcja-alt table.tabela tbody tr,
+  .dokument table.tabela tbody tr {
+    background: var(--bialy);
+  }
+
+  table.tabela tbody th[scope="row"] {
+    display: block;
+    border: 0;
+    padding: 18px 0 12px;
+    font-family: var(--font-naglowek);
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.35;
+    color: var(--tekst);
+  }
+
+  table.tabela tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--linia);
+    text-align: right;
+  }
+
+  table.tabela tbody tr td:last-child {
+    border-bottom: 0;
+    padding-bottom: 2px;
+  }
+
+  table.tabela tbody td::before {
+    content: attr(data-etykieta);
+    flex: 0 1 auto;
+    text-align: left;
+    color: var(--tekst-trzeci);
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  table.tabela tbody td:not([data-etykieta])::before {
+    content: none;
+  }
+}
