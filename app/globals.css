@@ -1109,7 +1109,7 @@ table.tabela td.kwota {
 @media (max-width: 620px) {
   .kontener,
   .kontener-waski {
-    padding: 0 20px;
+    padding: 0 18px;
   }
 
   :root {
@@ -1193,7 +1193,11 @@ table.tabela td.kwota {
     font-size: 0.96rem;
   }
 
+  /* Przy table { display: block } podpis traci kontekst tabeli,
+     dlatego musi dostać własny blok o pełnej szerokości. */
   table.tabela caption {
+    display: block;
+    width: 100%;
     padding: 0 0 14px;
     font-size: 0.98rem;
   }
@@ -1262,5 +1266,31 @@ table.tabela td.kwota {
 
   table.tabela tbody td:not([data-etykieta])::before {
     content: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .kontener,
+  .kontener-waski {
+    padding: 0 16px;
+  }
+
+  :root {
+    --odstep-sekcji: 48px;
+    --odstep-sekcji-maly: 40px;
+  }
+
+  .siatka-2 > *,
+  .siatka-3 > *,
+  .siatka-4 > * {
+    padding: 26px 20px;
+  }
+
+  .blok-danych {
+    padding: 24px 20px;
+  }
+
+  table.tabela tbody tr {
+    padding: 0 16px 12px;
   }
 }

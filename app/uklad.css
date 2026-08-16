@@ -68,7 +68,7 @@
   border-bottom: 1px solid var(--linia);
 }
 
-.naglowek .kontener {
+.naglowek > .kontener {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -175,7 +175,7 @@
   cursor: pointer;
 }
 
-.przelacznik-menu span {
+.przelacznik-menu-ikona {
   display: block;
   width: 16px;
   height: 9px;
@@ -184,7 +184,7 @@
   border-bottom: 1.5px solid currentColor;
 }
 
-.przelacznik-menu span::after {
+.przelacznik-menu-ikona::after {
   content: "";
   position: absolute;
   left: 0;
@@ -193,8 +193,12 @@
   border-top: 1.5px solid currentColor;
 }
 
+/* Znak firmowy jest nieprzełamywalny, więc na wąskich ekranach zmniejszamy go
+   stopniowo, tak aby przycisk menu zawsze mieścił się obok. */
+
+
 @media (max-width: 1040px) {
-  .naglowek .kontener {
+  .naglowek > .kontener {
     min-height: 74px;
   }
   .nawigacja {
@@ -209,17 +213,84 @@
   }
 }
 
+@media (max-width: 640px) {
+  .naglowek > .kontener {
+    gap: 14px;
+    min-height: 68px;
+  }
+
+  .znak {
+    gap: 11px;
+    min-width: 0;
+  }
+
+  .znak img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .znak-nazwa {
+    font-size: 0.76rem;
+    letter-spacing: 0.03em;
+    line-height: 1.24;
+  }
+
+  .znak-sekcja {
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+
+  .przelacznik-menu {
+    padding: 11px 13px;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 420px) {
+  .znak img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .znak-nazwa {
+    font-size: 0.71rem;
+    letter-spacing: 0.02em;
+  }
+
+  .znak-sekcja {
+    font-size: 0.585rem;
+    letter-spacing: 0.06em;
+  }
+
+  /* Sam znak graficzny wystarczy, nazwę przycisku niesie atrybut aria-label */
+  .przelacznik-menu-tekst {
+    display: none;
+  }
+
+  .przelacznik-menu {
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    gap: 0;
+  }
+}
+
 /* Menu rozwijane */
 
 .menu-mobilne {
   border-top: 1px solid var(--linia);
   background: var(--bialy);
-  padding: 8px 0 26px;
+  padding: 4px 0 22px;
+  max-height: calc(100dvh - 110px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .menu-mobilne ul {
   list-style: none;
-  margin: 0 0 20px;
+  margin: 0 0 18px;
   padding: 0;
 }
 
@@ -227,22 +298,43 @@
   border-bottom: 1px solid var(--linia);
 }
 
-.menu-mobilne a {
+.menu-mobilne li:last-child {
+  border-bottom: 0;
+}
+
+.menu-mobilne li a {
   display: block;
-  padding: 15px 0;
+  width: 100%;
+  padding: 16px 2px;
   font-family: var(--font-naglowek);
-  font-size: 1rem;
+  font-size: 1.02rem;
   font-weight: 600;
   color: var(--tekst);
 }
 
-.menu-mobilne a:hover {
+.menu-mobilne li a:hover,
+.menu-mobilne li a[aria-current="page"] {
   text-decoration: none;
   color: var(--akcent);
 }
 
 .menu-mobilne .przycisk {
+  display: flex;
   width: 100%;
+  padding: 17px 24px;
+}
+
+.menu-mobilne-kontakt {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--linia);
+  font-size: 0.92rem;
+}
+
+.menu-mobilne-kontakt a {
+  color: var(--tekst-drugi);
 }
 
 /* ------------------------------------------------------------------

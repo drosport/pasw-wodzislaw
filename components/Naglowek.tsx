@@ -13,6 +13,15 @@ export default function Naglowek() {
     ustawOtwarte(false);
   }, [sciezka]);
 
+  useEffect(() => {
+    if (!otwarte) return;
+    function naKlawisz(zdarzenie: KeyboardEvent) {
+      if (zdarzenie.key === "Escape") ustawOtwarte(false);
+    }
+    document.addEventListener("keydown", naKlawisz);
+    return () => document.removeEventListener("keydown", naKlawisz);
+  }, [otwarte]);
+
   const aktywna = (href: string) =>
     sciezka === href || sciezka.startsWith(`${href}/`);
 
@@ -39,7 +48,11 @@ export default function Naglowek() {
 
       <header className="naglowek">
         <div className="kontener">
-          <Link href="/" className="znak" aria-label={`${MARKA.nazwaPelna}, strona główna`}>
+          <Link
+            href="/"
+            className="znak"
+            aria-label={`${MARKA.nazwaPelna}, strona główna`}
+          >
             <img
               src="/pasw-logo.svg"
               alt=""
@@ -71,7 +84,10 @@ export default function Naglowek() {
                 </li>
               ))}
             </ul>
-            <Link href="/zapisy" className="przycisk przycisk-glowny przycisk-maly">
+            <Link
+              href="/zapisy"
+              className="przycisk przycisk-glowny przycisk-maly"
+            >
               Zapisz się na zajęcia
             </Link>
           </nav>
@@ -79,12 +95,13 @@ export default function Naglowek() {
           <button
             type="button"
             className="przelacznik-menu"
+            aria-label={otwarte ? "Zamknij menu" : "Otwórz menu"}
             aria-expanded={otwarte}
             aria-controls="menu-mobilne"
             onClick={() => ustawOtwarte((stan) => !stan)}
           >
-            <span aria-hidden="true" />
-            Menu
+            <span className="przelacznik-menu-ikona" aria-hidden="true" />
+            <span className="przelacznik-menu-tekst">Menu</span>
           </button>
         </div>
 
@@ -103,9 +120,21 @@ export default function Naglowek() {
                   </li>
                 ))}
               </ul>
+
               <Link href="/zapisy" className="przycisk przycisk-glowny">
                 Zapisz się na zajęcia
               </Link>
+
+              {(!brakuje(KONTAKT.telefon) || !brakuje(KONTAKT.email)) && (
+                <div className="menu-mobilne-kontakt">
+                  {!brakuje(KONTAKT.telefon) && (
+                    <a href={`tel:${KONTAKT.telefonHref}`}>{KONTAKT.telefon}</a>
+                  )}
+                  {!brakuje(KONTAKT.email) && (
+                    <a href={`mailto:${KONTAKT.email}`}>{KONTAKT.email}</a>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         )}

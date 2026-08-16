@@ -191,6 +191,12 @@ Układ jest jednokolumnowy poniżej 900 pikseli, z mniejszymi odstępami sekcji
 i węższymi marginesami kontenera. Nawigacja zwija się do rozwijanego menu
 poniżej 1040 pikseli.
 
+Znak firmowy w nagłówku jest nieprzełamywalny, więc poniżej 640 i 420 pikseli
+zmniejsza się stopniowo, a przycisk menu poniżej 420 pikseli zostaje samą
+ikoną, z nazwą w atrybucie `aria-label`. Dzięki temu nagłówek mieści się
+w 320 pikselach. Reguły dla wąskich ekranów muszą stać w arkuszu po bloku
+`max-width: 1040px`, ponieważ mają tę samą specyficzność i decyduje kolejność.
+
 Tabele cenowe poniżej 760 pikseli przestawiają się z układu poziomego na
 pionowy. Zamiast przewijania w bok każdy wiersz staje się osobnym blokiem
 z nazwą grupy jako nagłówkiem i podpisanymi wartościami. Etykiety kolumn
