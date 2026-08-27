@@ -11,10 +11,12 @@ import {
   KONTAKT,
   MARKA,
   OPERATOR_PLATNOSCI,
-  PAKIET_10_MIESIECY,
-  PAKIET_5_MIESIECY,
+  KATEGORIE,
+  PAKIETY,
+  SKLADKA,
+  WPISOWE,
+  cenaPakietu,
   PLATNOSCI,
-  SKLADKI_MIESIECZNE,
   SPOLKA,
   WEJSCIE_JEDNORAZOWE,
   brakuje,
@@ -168,10 +170,10 @@ export default function Regulamin() {
             <h2 id="zakres-uslug">3. Zakres usług</h2>
             <ol>
               <li>
-                Usługodawca prowadzi Zajęcia sztuk walki w systemie{" "}
-                {AKADEMIA.nazwaStylu}, obejmującym kung-fu, jiu-jitsu i systemę
-                oraz samoobronę, w grupach dobranych według wieku i stażu
-                Uczestników.
+                Usługodawca prowadzi Zajęcia sztuk walki w ramach{" "}
+                {MARKA.nazwa}, w grupach dobranych według wieku i stażu
+                Uczestników. Opis programu szkoleniowego prowadzi Akademia pod
+                adresem {AKADEMIA.stronaEtykieta}.
               </li>
               <li>
                 Zajęcia odbywają się w sali treningowej pod adresem{" "}
@@ -265,14 +267,14 @@ export default function Regulamin() {
                       </tr>
                     </thead>
                     <tbody>
-                      {SKLADKI_MIESIECZNE.map((wiersz) => (
-                        <tr key={wiersz.grupa}>
-                          <th scope="row">{wiersz.grupa}</th>
+                      {KATEGORIE.map((kategoria) => (
+                        <tr key={kategoria.id}>
+                          <th scope="row">{kategoria.etykieta}</th>
                           <td className="kwota" data-etykieta="Jeden trening w tygodniu">
-                            {zl(wiersz.jedenTrening)}
+                            {zl(SKLADKA[kategoria.id][1])}
                           </td>
                           <td className="kwota" data-etykieta="Dwa treningi w tygodniu">
-                            {zl(wiersz.dwaTreningi)}
+                            {zl(SKLADKA[kategoria.id][2])}
                           </td>
                         </tr>
                       ))}
@@ -283,6 +285,14 @@ export default function Regulamin() {
               <li>
                 Wejście jednorazowe kosztuje {zl(WEJSCIE_JEDNORAZOWE)} za jeden
                 trening i nie wiąże się z zawarciem umowy na czas nieokreślony.
+              </li>
+              <li>
+                Uczestnik zapisujący się po raz pierwszy wnosi jednorazową
+                opłatę wpisową w wysokości {zl(WPISOWE)}. Opłata doliczana jest
+                do pierwszej płatności, nie wchodzi do kwoty objętej zgodą na
+                obciążanie cykliczne i nie jest pobierana ponownie przy zmianie
+                wariantu ani przy przedłużeniu uczestnictwa. Opłata wpisowa nie
+                jest pobierana przy wejściu jednorazowym.
               </li>
               <li>
                 Pakiety opłacane z góry wynoszą:
@@ -296,28 +306,21 @@ export default function Regulamin() {
                       </tr>
                     </thead>
                     <tbody>
-                      {PAKIET_5_MIESIECY.map((wiersz) => (
-                        <tr key={`p5-${wiersz.grupa}`}>
-                          <th scope="row">5 miesięcy, {wiersz.grupa}</th>
-                          <td className="kwota" data-etykieta="Jeden trening w tygodniu">
-                            {zl(wiersz.jedenTreningPo)}
-                          </td>
-                          <td className="kwota" data-etykieta="Dwa treningi w tygodniu">
-                            {zl(wiersz.dwaTreningiPo)}
-                          </td>
-                        </tr>
-                      ))}
-                      {PAKIET_10_MIESIECY.map((wiersz) => (
-                        <tr key={`p10-${wiersz.grupa}`}>
-                          <th scope="row">Rok szkolny, {wiersz.grupa}</th>
-                          <td className="kwota" data-etykieta="Jeden trening w tygodniu">
-                            {zl(wiersz.jedenTreningPo)}
-                          </td>
-                          <td className="kwota" data-etykieta="Dwa treningi w tygodniu">
-                            {zl(wiersz.dwaTreningiPo)}
-                          </td>
-                        </tr>
-                      ))}
+                      {PAKIETY.flatMap((pakiet) =>
+                        KATEGORIE.map((kategoria) => (
+                          <tr key={`${pakiet.id}-${kategoria.id}`}>
+                            <th scope="row">
+                              {pakiet.etykieta}, {kategoria.etykieta}
+                            </th>
+                            <td className="kwota" data-etykieta="Jeden trening w tygodniu">
+                              {zl(cenaPakietu(kategoria.id, 1, pakiet.id).po)}
+                            </td>
+                            <td className="kwota" data-etykieta="Dwa treningi w tygodniu">
+                              {zl(cenaPakietu(kategoria.id, 2, pakiet.id).po)}
+                            </td>
+                          </tr>
+                        ))
+                      )}
                     </tbody>
                   </table>
                 </Tabela>

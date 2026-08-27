@@ -5,10 +5,7 @@ export const runtime = "nodejs";
 
 type Zgloszenie = Record<string, unknown>;
 
-const POLA_WYMAGANE: Record<string, string[]> = {
-  zapis: ["imie", "nazwisko", "email", "telefon", "grupa", "wariant"],
-  kontakt: ["imie", "nazwisko", "email", "temat", "wiadomosc"],
-};
+const POLA_WYMAGANE = ["imie", "nazwisko", "email", "temat", "wiadomosc"];
 
 function tekst(wartosc: unknown, limit = 2000): string {
   if (typeof wartosc !== "string") return "";
@@ -69,21 +66,16 @@ export async function POST(zadanie: Request) {
     );
   }
 
-  const typ = tekst(dane.typ, 20) === "kontakt" ? "kontakt" : "zapis";
-
   const pola = {
     imie: tekst(dane.imie, 80),
     nazwisko: tekst(dane.nazwisko, 80),
     email: tekst(dane.email, 120),
     telefon: tekst(dane.telefon, 30),
-    grupa: tekst(dane.grupa, 120),
-    wariant: tekst(dane.wariant, 160),
     temat: tekst(dane.temat, 120),
-    opiekun: tekst(dane.opiekun, 120),
     wiadomosc: tekst(dane.wiadomosc, 2000),
   };
 
-  const brakujace = POLA_WYMAGANE[typ].filter(
+  const brakujace = POLA_WYMAGANE.filter(
     (pole) => !pola[pole as keyof typeof pola]
   );
   if (brakujace.length > 0) {
@@ -107,24 +99,13 @@ export async function POST(zadanie: Request) {
     );
   }
 
-  const wiersze: [string, string][] =
-    typ === "zapis"
-      ? [
-          ["Imię i nazwisko", `${pola.imie} ${pola.nazwisko}`],
-          ["Adres e-mail", pola.email],
-          ["Telefon", pola.telefon],
-          ["Grupa wiekowa", pola.grupa],
-          ["Wybrany wariant", pola.wariant],
-          ["Opiekun prawny", pola.opiekun || "nie podano"],
-          ["Dodatkowe informacje", pola.wiadomosc || "brak"],
-        ]
-      : [
-          ["Imię i nazwisko", `${pola.imie} ${pola.nazwisko}`],
-          ["Adres e-mail", pola.email],
-          ["Telefon", pola.telefon || "nie podano"],
-          ["Temat", pola.temat],
-          ["Wiadomość", pola.wiadomosc],
-        ];
+  const wiersze: [string, string][] = [
+    ["Imię i nazwisko", `${pola.imie} ${pola.nazwisko}`],
+    ["Adres e-mail", pola.email],
+    ["Telefon", pola.telefon || "nie podano"],
+    ["Temat", pola.temat],
+    ["Wiadomość", pola.wiadomosc],
+  ];
 
   const trescTekstowa = wiersze
     .map(([etykieta, wartosc]) => `${etykieta}: ${wartosc}`)
@@ -132,11 +113,7 @@ export async function POST(zadanie: Request) {
 
   const trescHtml = `
     <div style="font-family: Arial, sans-serif; font-size: 14px; color: #17181a;">
-      <p style="margin:0 0 16px;">${
-        typ === "zapis"
-          ? "Nowe zgłoszenie na zajęcia"
-          : "Nowa wiadomość z formularza kontaktowego"
-      } na stronie ${escapujHtml(MARKA.nazwaPelna)}.</p>
+      <p style="margin:0 0 16px;">Nowa wiadomość z formularza kontaktowego na stronie ${escapujHtml(MARKA.nazwaPelna)}.</p>
       <table cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
         ${wiersze
           .map(
@@ -185,10 +162,7 @@ export async function POST(zadanie: Request) {
         from: nadawca,
         to: [odbiorca],
         reply_to: pola.email,
-        subject:
-          typ === "zapis"
-            ? `Zgłoszenie na zajęcia, ${pola.imie} ${pola.nazwisko}`
-            : `Wiadomość ze strony, ${pola.temat}`,
+        subject: `Wiadomość ze strony, ${pola.temat}`,
         text: trescTekstowa,
         html: trescHtml,
       }),

@@ -11,7 +11,9 @@ import {
   METODY_PLATNOSCI,
   OPERATOR_PLATNOSCI,
   PLATNOSCI,
-  SKLADKI_MIESIECZNE,
+  KATEGORIE,
+  SKLADKA,
+  WPISOWE,
   SPOLKA,
   WEJSCIE_JEDNORAZOWE,
   brakuje,
@@ -174,18 +176,22 @@ export default function Platnosci() {
                 </tr>
               </thead>
               <tbody>
-                {SKLADKI_MIESIECZNE.flatMap((wiersz) => [
-                  <tr key={`${wiersz.grupa}-1`}>
-                    <th scope="row">{wiersz.grupa}, jeden trening w tygodniu</th>
+                {KATEGORIE.flatMap((kategoria) => [
+                  <tr key={`${kategoria.id}-1`}>
+                    <th scope="row">
+                      {kategoria.etykieta}, jeden trening w tygodniu
+                    </th>
                     <td className="kwota" data-etykieta="Kwota obciążenia">
-                      {zl(wiersz.jedenTrening)}
+                      {zl(SKLADKA[kategoria.id][1])}
                     </td>
                     <td data-etykieta="Częstotliwość">Raz w miesiącu</td>
                   </tr>,
-                  <tr key={`${wiersz.grupa}-2`}>
-                    <th scope="row">{wiersz.grupa}, dwa treningi w tygodniu</th>
+                  <tr key={`${kategoria.id}-2`}>
+                    <th scope="row">
+                      {kategoria.etykieta}, dwa treningi w tygodniu
+                    </th>
                     <td className="kwota" data-etykieta="Kwota obciążenia">
-                      {zl(wiersz.dwaTreningi)}
+                      {zl(SKLADKA[kategoria.id][2])}
                     </td>
                     <td data-etykieta="Częstotliwość">Raz w miesiącu</td>
                   </tr>,
@@ -200,7 +206,9 @@ export default function Platnosci() {
               wartosc={PLATNOSCI.miesiaceWylaczone}
               opis="miesiące wyłączone do uzupełnienia"
             />
-            . W tych miesiącach obciążenie nie jest realizowane. Pakiety
+            . W tych miesiącach obciążenie nie jest realizowane. Opłata wpisowa
+            {" "}{zl(WPISOWE)} doliczana jest wyłącznie do pierwszej płatności
+            i nigdy nie wchodzi do kwoty obciążeń cyklicznych. Pakiety
             opłacane z góry oraz wejście jednorazowe w kwocie{" "}
             {zl(WEJSCIE_JEDNORAZOWE)} rozliczane są jako zwykła płatność
             jednorazowa i nie wymagają zgody na obciążanie cykliczne.

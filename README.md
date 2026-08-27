@@ -1,9 +1,11 @@
 # Pszczyńska Akademia Sztuk Walki, sekcja Wodzisław Śląski
 
-Strona etapu 1 według dokumentu `pasw-strona-specyfikacja.md`. Statyczna, bez
-bazy danych i bez płatności, z kompletną treścią, dokumentami prawnymi
-i działającym formularzem zgłoszeniowym. Przygotowana pod ręczną weryfikację
-przez Przelewy24.
+Strona płatnicza sekcji Wodzisław Śląski. Służy do zapisania się na zajęcia
+i opłacenia ich, oraz do wykonania obowiązków informacyjnych wobec klienta
+i operatora płatności.
+
+Opis szkoły, historia Akademii i program szkolenia są na `pasw.com.pl` i nie są
+tu powtarzane. Ta strona ma być chuda i skupiona na płatnościach.
 
 Podmiotem prowadzącym jest DRO SPORT sp. z o.o. Marka PASW występuje jako nazwa
 handlowa sekcji, co strona sygnalizuje w stopce każdej podstrony, na podstronie
@@ -60,26 +62,28 @@ Struktura podstron:
 
 | Ścieżka | Plik | Zawartość |
 |---|---|---|
-| `/` | `app/page.tsx` | O Akademii i sekcji, program, grupy, harmonogram, prowadzący, skrót cennika |
-| `/zajecia` | `app/zajecia/page.tsx` | Program, terminy, kadra, miejsce zajęć |
-| `/cennik` | `app/cennik/page.tsx` | Składki, wejście jednorazowe, pakiety, zniżki |
+| `/` | `app/page.tsx` | Krótkie kim jesteśmy z odnośnikiem do pasw.com.pl, terminy, skrót cennika, jak zapłacić |
+| `/treningi` | `app/treningi/page.tsx` | Terminy, miejsce, co zabrać na pierwszy trening |
+| `/cennik` | `app/cennik/page.tsx` | Składki, wpisowe, wejście jednorazowe, pakiety, zniżki |
+| `/zapisy` | `app/zapisy/page.tsx` | Trzystopniowy proces zapisu i płatności |
 | `/platnosci` | `app/platnosci/page.tsx` | Metody płatności, płatność cykliczna, rezygnacja, zwroty, reklamacje |
-| `/zapisy` | `app/zapisy/page.tsx` | Formularz zgłoszeniowy |
-| `/kontakt` | `app/kontakt/page.tsx` | Dane kontaktowe, dojazd, dane rejestrowe, formularz |
+| `/kontakt` | `app/kontakt/page.tsx` | Dane kontaktowe, dojazd, dane rejestrowe, formularz wiadomości |
 | `/regulamin` | `app/regulamin/page.tsx` | Regulamin, 15 rozdziałów oraz wzór odstąpienia |
 | `/polityka-prywatnosci` | `app/polityka-prywatnosci/page.tsx` | Polityka prywatności, 12 rozdziałów |
+| `/platnosc/potwierdzenie` | `app/platnosc/potwierdzenie/page.tsx` | Ekran powrotu z bramki płatniczej |
+
 
 ## Do uzupełnienia przed publikacją
 
 `npm run sprawdz-dane` wypisuje aktualną listę. Na stronie brakujące wartości
 są oznaczone czerwonym, podkreślonym napisem, więc nie da się ich przeoczyć.
-Zostało pięć pozycji:
+Zostały cztery pozycje. **Dwie z nich blokują wysyłkę zrzutów do Przelewy24**,
+bo widać je na ekranie podsumowania płatności:
 
+- `dzienObciazenia`, dzień miesiąca, w którym następuje obciążenie, **blokuje**
+- `miesiaceWylaczone`, miesiące bez pobrania, prawdopodobnie lipiec i sierpień, **blokuje**
 - sąd rejestrowy prowadzący akta rejestrowe, z odpisu z KRS
 - imię i nazwisko instruktora prowadzącego sekcję
-- jego kwalifikacje
-- dzień miesiąca, w którym następuje obciążenie
-- miesiące wyłączone z cyklu, prawdopodobnie lipiec i sierpień
 
 Dane kontaktowe, adres sali, terminy zajęć i program zostały uzupełnione na
 podstawie oficjalnej strony Akademii, pasw.com.pl, oraz danych przekazanych
@@ -150,12 +154,51 @@ Regulamin oraz polityka prywatności powinny przed publikacją zostać
 przejrzane przez prawnika, w szczególności w części konsumenckiej i dotyczącej
 małoletnich. Specyfikacja przewiduje to wprost.
 
+## Proces zapisu i płatności
+
+`/zapisy` prowadzi przez trzy etapy: wybór wariantu, dane uczestnika,
+podsumowanie z płatnością. Kalkulacja siedzi w `policzZamowienie` w
+`lib/dane.ts` i jest jedynym miejscem, w którym powstają kwoty.
+
+Opłata wpisowa doliczana jest wyłącznie do pierwszej płatności i nigdy nie
+wchodzi do kwoty obciążeń cyklicznych. Przy wejściu jednorazowym nie jest
+naliczana wcale.
+
+Ekran podsumowania jest ekranem, który ogląda operator przy weryfikacji. Przed
+podaniem kodu BLIK pokazuje kwotę pierwszej płatności, kwotę kolejnych
+obciążeń, częstotliwość, dzień pobrania, miesiące bez pobrania, okres
+obowiązywania zgody i sposób jej odwołania. Zgoda na obciążanie cykliczne jest
+osobnym polem, niezależnym od akceptacji regulaminu i polityki prywatności.
+
+## Płatności, stan wdrożenia
+
+`lib/przelewy24.ts` obsługuje REST API v1: rejestrację transakcji, sprawdzenie
+podpisu powiadomienia i potwierdzenie transakcji. Klucze pochodzą wyłącznie
+ze zmiennych środowiskowych, repozytorium ich nie zawiera.
+
+| Element | Stan |
+|---|---|
+| Proces zakupowy, trzy etapy | Gotowe |
+| Ekran podsumowania z pełną informacją o obciążeniu | Gotowe |
+| Odrębna zgoda na obciążanie cykliczne | Gotowe |
+| Rejestracja transakcji i przekierowanie do bramki | Gotowe, czeka na klucze |
+| Powiadomienie o płatności, `POST /api/platnosc/status` | Gotowe, sprawdza podpis i potwierdza transakcję |
+| Automatyczne pobranie kolejnej składki | **Brak.** Wymaga aneksu BLIK, zapisania identyfikatora zgody i harmonogramu |
+| Zapis zamówień do bazy | **Brak.** Dane zapisu idą e-mailem, powiązane identyfikatorem sesji |
+
+Dopóki zmienne `P24_*` nie są ustawione, kreator nie udaje płatności. Zapisuje
+zgłoszenie, wysyła je e-mailem i pokazuje, że płatności online nie zostały
+jeszcze uruchomione.
+
+Adres powiadomień do wpisania w panelu operatora:
+`https://drosport.pl/api/platnosc/status`.
+
 ## Formularz kontaktowy
 
-Formularze na podstronach `/zapisy` i `/kontakt` wysyłają dane do
-`app/api/kontakt/route.ts`. Endpoint waliduje pola, sprawdza pułapkę na roboty,
-ogranicza liczbę zgłoszeń z jednego adresu IP do pięciu na dziesięć minut,
-a następnie wysyła wiadomość przez Resend.
+Formularz na podstronie `/kontakt` wysyła dane do `app/api/kontakt/route.ts`.
+Endpoint waliduje pola, sprawdza pułapkę na roboty, ogranicza liczbę zgłoszeń
+z jednego adresu IP do pięciu na dziesięć minut, a następnie wysyła wiadomość
+przez Resend. Wysyłkę współdzieli z procesem płatności, kod w `lib/poczta.ts`.
 
 Do działania potrzebne są trzy zmienne środowiskowe, wzór w `.env.example`:
 

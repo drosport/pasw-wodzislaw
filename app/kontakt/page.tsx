@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import FormularzZgloszenia from "@/components/FormularzZgloszenia";
+import FormularzKontaktowy from "@/components/FormularzKontaktowy";
 import NaglowekStrony from "@/components/NaglowekStrony";
 import { Wartosc } from "@/components/Wartosc";
 import {
@@ -101,10 +101,9 @@ export default function Kontakt() {
               <span className="etykieta">Dojazd</span>
               <h2>Jak dotrzeć na zajęcia</h2>
               <p className="wprowadzenie">
-                <Wartosc
-                  wartosc={KONTAKT.dojazd}
-                  opis="opis dojazdu do uzupełnienia, na przykład najbliższy przystanek, wjazd na parking, wejście do budynku"
-                />
+                Trenujemy w sali gimnastycznej {KONTAKT.salaNazwa} przy ulicy
+                26 Marca 9. Jeżeli przychodzisz pierwszy raz, zadzwoń, powiemy
+                którym wejściem najłatwiej trafić na salę.
               </p>
               <p style={{ marginTop: "26px" }}>
                 Prosimy o przybycie na pierwszy trening kilkanaście minut przed
@@ -160,11 +159,11 @@ export default function Kontakt() {
               <span className="etykieta">Formularz kontaktowy</span>
               <h2>Napisz do nas</h2>
               <p className="wprowadzenie" style={{ marginBottom: "44px" }}>
-                Jeżeli chcesz zapisać się na zajęcia, skorzystaj z formularza
-                zgłoszeniowego na podstronie zapisów. Ten formularz służy do
+                Jeżeli chcesz zapisać się na zajęcia i od razu je opłacić,
+                skorzystaj z podstrony zapisu. Ten formularz służy do
                 pozostałych spraw.
               </p>
-              <FormularzZgloszenia tryb="kontakt" />
+              <FormularzKontaktowy />
             </div>
 
             <div>

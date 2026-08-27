@@ -3,7 +3,7 @@ import { STRONA } from "@/lib/dane";
 
 const SCIEZKI = [
   { sciezka: "", priorytet: 1 },
-  { sciezka: "/zajecia", priorytet: 0.9 },
+  { sciezka: "/treningi", priorytet: 0.9 },
   { sciezka: "/cennik", priorytet: 0.9 },
   { sciezka: "/zapisy", priorytet: 0.9 },
   { sciezka: "/platnosci", priorytet: 0.7 },

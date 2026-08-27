@@ -1,60 +1,64 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import NaglowekStrony from "@/components/NaglowekStrony";
-import Tabela from "@/components/Tabela";
 import PasWezwania from "@/components/PasWezwania";
+import Tabela from "@/components/Tabela";
 import { Wartosc } from "@/components/Wartosc";
 import {
+  IdPakietu,
+  KATEGORIE,
   METODY_PLATNOSCI,
-  PAKIET_10_MIESIECY,
-  PAKIET_5_MIESIECY,
+  PAKIETY,
   PLATNOSCI,
-  SKLADKI_MIESIECZNE,
+  SKLADKA,
   UWAGI_CENNIK,
   WEJSCIE_JEDNORAZOWE,
-  WierszPakietu,
+  WPISOWE,
   ZNIZKI_RODZINNE,
+  cenaPakietu,
   zl,
 } from "@/lib/dane";
 
 export const metadata: Metadata = {
   title: "Cennik",
   description:
-    "Składki miesięczne, wejście jednorazowe, pakiety opłacane z góry oraz zniżki rodzinne. Ceny zajęć sztuk walki w Wodzisławiu Śląskim.",
+    "Składki miesięczne, opłata wpisowa, wejście jednorazowe, pakiety opłacane z góry oraz zniżki rodzinne.",
 };
 
-function TabelaPakietu({
-  podpis,
-  wiersze,
-}: {
-  podpis: string;
-  wiersze: WierszPakietu[];
-}) {
+function TabelaPakietu({ id }: { id: IdPakietu }) {
+  const pakiet = PAKIETY.find((p) => p.id === id)!;
   return (
     <Tabela>
       <table className="tabela">
-        <caption>{podpis}</caption>
+        <caption>
+          {pakiet.etykieta}, {pakiet.miesiace} miesięcy, zniżka{" "}
+          {pakiet.znizkaProcent} procent
+        </caption>
         <thead>
           <tr>
-            <th scope="col">Grupa</th>
+            <th scope="col">Kategoria</th>
             <th scope="col">Jeden trening w tygodniu</th>
             <th scope="col">Dwa treningi w tygodniu</th>
           </tr>
         </thead>
         <tbody>
-          {wiersze.map((wiersz) => (
-            <tr key={wiersz.grupa}>
-              <th scope="row">{wiersz.grupa}</th>
-              <td className="kwota" data-etykieta="Jeden trening w tygodniu">
-                <span className="kwota-przed">{zl(wiersz.jedenTreningPrzed)}</span>
-                <span className="kwota-po">{zl(wiersz.jedenTreningPo)}</span>
-              </td>
-              <td className="kwota" data-etykieta="Dwa treningi w tygodniu">
-                <span className="kwota-przed">{zl(wiersz.dwaTreningiPrzed)}</span>
-                <span className="kwota-po">{zl(wiersz.dwaTreningiPo)}</span>
-              </td>
-            </tr>
-          ))}
+          {KATEGORIE.map((kategoria) => {
+            const jeden = cenaPakietu(kategoria.id, 1, id);
+            const dwa = cenaPakietu(kategoria.id, 2, id);
+            return (
+              <tr key={kategoria.id}>
+                <th scope="row">{kategoria.etykieta}</th>
+                <td className="kwota" data-etykieta="Jeden trening w tygodniu">
+                  <span className="kwota-przed">{zl(jeden.przed)}</span>
+                  <span className="kwota-po">{zl(jeden.po)}</span>
+                </td>
+                <td className="kwota" data-etykieta="Dwa treningi w tygodniu">
+                  <span className="kwota-przed">{zl(dwa.przed)}</span>
+                  <span className="kwota-po">{zl(dwa.po)}</span>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </Tabela>
@@ -66,11 +70,11 @@ export default function Cennik() {
     <>
       <NaglowekStrony
         okruszek="Cennik"
-        tytul="Cennik zajęć"
-        opis="Podane kwoty są kwotami brutto i odpowiadają dokładnie kwotom pobieranym przy płatności. Cennik jest dostępny publicznie, bez logowania."
+        tytul="Cennik"
+        opis="Kwoty brutto, identyczne z kwotami pobieranymi przy płatności. Cennik jest dostępny publicznie, bez logowania."
       />
 
-      {/* Składki miesięczne -------------------------------------------- */}
+      {/* Składki -------------------------------------------------------- */}
       <section className="sekcja">
         <div className="kontener">
           <div className="naglowek-sekcji">
@@ -78,9 +82,8 @@ export default function Cennik() {
             <h2>Składki miesięczne</h2>
             <p className="wprowadzenie">
               Składka jest stała w każdym miesiącu treningowym i nie zależy od
-              liczby obecności. Wariant, czyli liczbę treningów w tygodniu,
-              uczestnik wybiera przy zapisie i może go zmienić od kolejnego
-              okresu rozliczeniowego.
+              liczby obecności. Wariant można zmienić od kolejnego okresu
+              rozliczeniowego.
             </p>
           </div>
 
@@ -88,20 +91,20 @@ export default function Cennik() {
             <table className="tabela">
               <thead>
                 <tr>
-                  <th scope="col">Grupa</th>
+                  <th scope="col">Kategoria</th>
                   <th scope="col">Jeden trening w tygodniu</th>
                   <th scope="col">Dwa treningi w tygodniu</th>
                 </tr>
               </thead>
               <tbody>
-                {SKLADKI_MIESIECZNE.map((wiersz) => (
-                  <tr key={wiersz.grupa}>
-                    <th scope="row">{wiersz.grupa}</th>
+                {KATEGORIE.map((kategoria) => (
+                  <tr key={kategoria.id}>
+                    <th scope="row">{kategoria.etykieta}</th>
                     <td className="kwota" data-etykieta="Jeden trening w tygodniu">
-                      {zl(wiersz.jedenTrening)} miesięcznie
+                      {zl(SKLADKA[kategoria.id][1])} miesięcznie
                     </td>
                     <td className="kwota" data-etykieta="Dwa treningi w tygodniu">
-                      {zl(wiersz.dwaTreningi)} miesięcznie
+                      {zl(SKLADKA[kategoria.id][2])} miesięcznie
                     </td>
                   </tr>
                 ))}
@@ -111,57 +114,46 @@ export default function Cennik() {
 
           <div className="kolumny-2" style={{ marginTop: "56px" }}>
             <div className="blok-danych">
-              <h3>Wejście jednorazowe</h3>
+              <h3>Opłata wpisowa</h3>
               <p className="tekst-drugi">
-                {zl(WEJSCIE_JEDNORAZOWE)} za pojedynczy trening. Rozliczenie
-                jednorazowe, bez zapisu na stałe i bez zgody na obciążanie
-                cykliczne.
+                {zl(WPISOWE)}, jednorazowo, przy pierwszym zapisie. Doliczana
+                do pierwszej płatności i nigdy nie wchodzi do kwoty obciążeń
+                cyklicznych.
               </p>
             </div>
             <div className="blok-danych">
-              <h3>Zniżki rodzinne</h3>
-              <ul className="lista-kreski">
-                {ZNIZKI_RODZINNE.map((zapis) => (
-                  <li key={zapis}>{zapis}</li>
-                ))}
-              </ul>
+              <h3>Wejście jednorazowe</h3>
+              <p className="tekst-drugi">
+                {zl(WEJSCIE_JEDNORAZOWE)} za pojedynczy trening. Bez zapisu na
+                stałe, bez opłaty wpisowej i bez zgody na obciążanie cykliczne.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pakiety z góry -------------------------------------------------- */}
+      {/* Pakiety --------------------------------------------------------- */}
       <section className="sekcja sekcja-alt">
         <div className="kontener">
           <div className="naglowek-sekcji">
             <span className="etykieta">Płatność z góry</span>
             <h2>Pakiety opłacane jednorazowo</h2>
             <p className="wprowadzenie">
-              Pakiet to jedna płatność obejmująca cały wskazany okres. Nie
-              wymaga zgody na obciążanie cykliczne i nie generuje kolejnych
-              pobrań. Po zakończeniu opłaconego okresu uczestnik decyduje, czy
-              wykupuje kolejny pakiet, czy przechodzi na składkę miesięczną.
+              Jedna płatność za cały wskazany okres. Nie wymaga zgody na
+              obciążanie cykliczne i nie generuje kolejnych pobrań.
             </p>
           </div>
 
           <div style={{ display: "grid", gap: "44px" }}>
-            <div>
-              <TabelaPakietu
-                podpis="Pakiet na 5 miesięcy, zniżka 10 procent"
-                wiersze={PAKIET_5_MIESIECY}
-              />
-            </div>
-            <div>
-              <TabelaPakietu
-                podpis="Pakiet na cały rok szkolny, 10 miesięcy, zniżka 20 procent"
-                wiersze={PAKIET_10_MIESIECY}
-              />
-            </div>
+            {PAKIETY.map((pakiet) => (
+              <TabelaPakietu key={pakiet.id} id={pakiet.id} />
+            ))}
           </div>
 
           <p className="przypis-tabeli" style={{ marginTop: "26px" }}>
-            Kwota przekreślona to suma składek miesięcznych za dany okres,
-            kwota wyróżniona to cena pakietu po zniżce.
+            Kwota przekreślona to suma składek miesięcznych za dany okres, kwota
+            wyróżniona to cena pakietu po zniżce. Do pierwszego pakietu nowego
+            uczestnika doliczana jest opłata wpisowa {zl(WPISOWE)}.
           </p>
         </div>
       </section>
@@ -184,54 +176,52 @@ export default function Cennik() {
                   wartosc={PLATNOSCI.miesiaceWylaczone}
                   opis="miesiące wyłączone do uzupełnienia"
                 />
-                . W tych miesiącach zajęcia się nie odbywają, a składka nie
-                jest pobierana.
+                . W tych miesiącach zajęcia się nie odbywają, a składka nie jest
+                pobierana.
               </p>
               <p>
-                Przy rozliczeniu w formie składki miesięcznej pobranie
-                następuje{" "}
+                Przy składce miesięcznej pobranie następuje{" "}
                 <Wartosc
                   wartosc={PLATNOSCI.dzienObciazenia}
                   opis="dzień obciążenia do uzupełnienia"
                 />
-                . Szczegółowe zasady, w tym sposób rezygnacji i postępowanie
-                przy nieudanym obciążeniu, opisuje podstrona o płatnościach
-                oraz regulamin.
+                .
               </p>
               <p style={{ marginTop: "30px" }}>
                 <Link href="/platnosci" className="link-dalej">
-                  Informacje o płatnościach
+                  Zasady płatności i rezygnacji
                 </Link>
               </p>
             </div>
 
-            <div className="blok-danych">
-              <h3>Formy płatności</h3>
-              <ul className="lista-kreski">
-                {METODY_PLATNOSCI.map((metoda) => (
-                  <li key={metoda}>{metoda}</li>
-                ))}
-              </ul>
-              <p
-                className="przypis-tabeli"
-                style={{
-                  marginTop: "24px",
-                  paddingTop: "20px",
-                  borderTop: "1px solid var(--linia)",
-                }}
-              >
-                Płatności online obsługuje PayPro S.A., operator serwisu
-                Przelewy24.
-              </p>
+            <div>
+              <div className="blok-danych">
+                <h3>Zniżki rodzinne</h3>
+                <ul className="lista-kreski" style={{ fontSize: "0.95rem" }}>
+                  {ZNIZKI_RODZINNE.map((zapis) => (
+                    <li key={zapis}>{zapis}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="blok-danych" style={{ marginTop: "24px" }}>
+                <h3>Formy płatności</h3>
+                <ul className="lista-kreski" style={{ fontSize: "0.95rem" }}>
+                  {METODY_PLATNOSCI.map((metoda) => (
+                    <li key={metoda}>{metoda}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       <PasWezwania
-        tytul="Wybierz wariant i zapisz się"
-        tresc="Jeżeli nie masz pewności, który wariant będzie odpowiedni, napisz albo zadzwoń. Doradzimy na podstawie wieku uczestnika i dostępnych terminów."
-        przyciskDrugi={{ etykieta: "Zobacz harmonogram", href: "/zajecia" }}
+        tytul="Wybierz wariant i zapłać"
+        tresc="Kalkulator w formularzu zapisu policzy dokładną kwotę, razem z opłatą wpisową, jeżeli Cię dotyczy."
+        przyciskGlowny={{ etykieta: "Zapisz się i zapłać", href: "/zapisy" }}
+        przyciskDrugi={{ etykieta: "Treningi", href: "/treningi" }}
       />
     </>
   );
