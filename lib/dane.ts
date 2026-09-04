@@ -180,6 +180,7 @@ export const UWAGI_CENNIK = [
   "Rok szkolny obejmuje 10 miesięcy treningowych.",
   "Ceny są cenami brutto i są identyczne z kwotami pobieranymi przy płatności.",
   "Zniżki rodzinne rozliczamy poza systemem płatności. Zgłoś je przed pierwszą wpłatą, ustalimy kwotę i wyślemy odnośnik do zapłaty.",
+  "Rozliczamy się wyłącznie bezgotówkowo. Instruktor nie przyjmuje wpłat na sali treningowej.",
 ];
 
 /* ------------------------------------------------------------------ */

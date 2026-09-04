@@ -54,6 +54,12 @@ export default function Platnosci() {
                 ))}
               </ul>
 
+              <p style={{ marginTop: "24px" }}>
+                Rozliczamy się wyłącznie bezgotówkowo. Instruktor nie przyjmuje
+                wpłat na sali treningowej, więc każdą opłatę reguluje się przez
+                stronę albo przelewem na rachunek spółki.
+              </p>
+
               <ul className="logotypy" style={{ marginTop: "34px" }}>
                 <li>BLIK</li>
                 <li>Visa</li>
