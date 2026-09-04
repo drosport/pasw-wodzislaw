@@ -193,6 +193,25 @@ jeszcze uruchomione.
 Adres powiadomień do wpisania w panelu operatora:
 `https://drosport.pl/api/platnosc/status`.
 
+## Wybór operatora płatności
+
+Rozważano eService, bramkę oferowaną przez PKO Bank Polski, jako alternatywę
+dla Przelewy24. Odrzucono we wrześniu 2026 z trzech powodów:
+
+1. **Cykliczność u eService działa wyłącznie na kartach płatniczych**, przez
+   tokenizację karty przy pierwszej transakcji. Nie obsługuje cyklicznego
+   BLIK-a, wokół którego zbudowany jest proces zapisu, bo tego oczekują
+   rodzice płacący składki.
+2. **Nakład pracy jest identyczny.** eService potwierdził, że nie ma gotowego
+   produktu subskrypcyjnego i że cała logika, czyli comiesięczne pobieranie,
+   przypomnienia i ponawianie przy odrzuceniu, leży po stronie integratora.
+   To samo dotyczy Przelewy24.
+3. **Aneks na BLIK Płatności Cykliczne był już w toku** u Przelewy24, konto
+   413088, a integracja napisana.
+
+Gdyby w przyszłości pojawiła się potrzeba obsługi kart w cyklu, Przelewy24
+obsługuje je tak samo, więc drugi operator nie byłby potrzebny.
+
 ## Formularz kontaktowy
 
 Formularz na podstronie `/kontakt` wysyła dane do `app/api/kontakt/route.ts`.
