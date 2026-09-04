@@ -1544,3 +1544,46 @@ table.tabela td.kwota {
 .przycisk-wstecz:hover {
   color: var(--akcent);
 }
+
+/* Bieżąca kwota w kreatorze zapisu, widoczna już przy wyborze wariantu */
+.pasek-kwoty {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: baseline;
+  border: 1px solid var(--czarny);
+  border-left-width: 3px;
+  padding: 22px 26px;
+  margin-top: 34px;
+}
+
+.pasek-kwoty-etykieta {
+  display: block;
+  font-family: var(--font-naglowek);
+  font-size: 0.73rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--tekst-trzeci);
+  margin-bottom: 6px;
+}
+
+.pasek-kwoty-wartosc {
+  display: block;
+  font-family: var(--font-naglowek);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--tekst);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+@media (max-width: 560px) {
+  .pasek-kwoty {
+    gap: 24px;
+    padding: 20px;
+  }
+  .pasek-kwoty-wartosc {
+    font-size: 1.3rem;
+  }
+}

@@ -175,8 +175,56 @@ export default function Zapisy({
       {/* Etap 1 ------------------------------------------------------- */}
       {etap === 1 && (
         <div>
+                    <fieldset className="pole-zestaw">
+            <legend className="legenda-wyboru">Kto będzie trenował</legend>
+            <div className="wybor">
+              {KATEGORIE.map((k) => (
+                <label key={k.id}>
+                  <input
+                    type="radio"
+                    name="kategoria"
+                    value={k.id}
+                    checked={kategoria === k.id}
+                    onChange={() => ustawKategorie(k.id)}
+                  />
+                  <span>
+                    <span className="wybor-nazwa">{k.etykieta}</span>
+                    <span className="wybor-opis">{k.opis}</span>
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
           <fieldset className="pole-zestaw">
-            <legend className="legenda-wyboru">Forma rozliczenia</legend>
+            <legend className="legenda-wyboru">Jak często</legend>
+            <div className="wybor wybor-dwie">
+              {([1, 2] as const).map((n) => (
+                <label key={n}>
+                  <input
+                    type="radio"
+                    name="treningi"
+                    value={n}
+                    checked={treningi === n}
+                    onChange={() => ustawTreningi(n)}
+                  />
+                  <span>
+                    <span className="wybor-nazwa">
+                      {n === 1 ? "Jeden trening" : "Dwa treningi"}
+                    </span>
+                    <span className="wybor-opis">
+                      {n === 1
+                        ? "Środa albo piątek, do ustalenia z instruktorem."
+                        : "Środa i piątek."}
+                    </span>
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset className="pole-zestaw">
+            <legend className="legenda-wyboru">Forma płatności</legend>
             <div className="wybor">
               {FORMY.map((f) => (
                 <label key={f.id}>
@@ -198,56 +246,6 @@ export default function Zapisy({
               ))}
             </div>
           </fieldset>
-
-          <fieldset className="pole-zestaw">
-            <legend className="legenda-wyboru">Kategoria uczestnika</legend>
-            <div className="wybor">
-              {KATEGORIE.map((k) => (
-                <label key={k.id}>
-                  <input
-                    type="radio"
-                    name="kategoria"
-                    value={k.id}
-                    checked={kategoria === k.id}
-                    onChange={() => ustawKategorie(k.id)}
-                  />
-                  <span>
-                    <span className="wybor-nazwa">{k.etykieta}</span>
-                    <span className="wybor-opis">{k.opis}</span>
-                  </span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
-
-          {!jednorazowe && (
-            <fieldset className="pole-zestaw">
-              <legend className="legenda-wyboru">Liczba treningów w tygodniu</legend>
-              <div className="wybor wybor-dwie">
-                {([1, 2] as const).map((n) => (
-                  <label key={n}>
-                    <input
-                      type="radio"
-                      name="treningi"
-                      value={n}
-                      checked={treningi === n}
-                      onChange={() => ustawTreningi(n)}
-                    />
-                    <span>
-                      <span className="wybor-nazwa">
-                        {n === 1 ? "Jeden trening" : "Dwa treningi"}
-                      </span>
-                      <span className="wybor-opis">
-                        {n === 1
-                          ? "Środa albo piątek, do ustalenia z instruktorem."
-                          : "Środa i piątek."}
-                      </span>
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-          )}
 
           {!jednorazowe && (
             <fieldset className="pole-zestaw">
@@ -287,7 +285,24 @@ export default function Zapisy({
             </fieldset>
           )}
 
-          <div className="nawigacja-krokow">
+          <div className="pasek-kwoty" aria-live="polite">
+            <div>
+              <span className="pasek-kwoty-etykieta">Do zapłaty teraz</span>
+              <span className="pasek-kwoty-wartosc">
+                {zl(zamowienie.doZaplatyTeraz)}
+              </span>
+            </div>
+            {zamowienie.cykliczna && (
+              <div>
+                <span className="pasek-kwoty-etykieta">Kolejne miesiące</span>
+                <span className="pasek-kwoty-wartosc">
+                  {zl(zamowienie.kwotaCykliczna)}
+                </span>
+              </div>
+            )}
+          </div>
+
+          <div className="nawigacja-krokow" style={{ borderTop: 0, paddingTop: 0 }}>
             <button
               type="button"
               className="przycisk przycisk-glowny"
