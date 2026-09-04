@@ -285,8 +285,11 @@ export function policzZamowienie(wybor: {
 /* ------------------------------------------------------------------ */
 
 export const PLATNOSCI = {
-  // Do ustalenia z klientem i operatorem.
-  dzienObciazenia: UZUPELNIC,
+  // Cennik 2026/2027: płatność miesięczna do 5. dnia każdego miesiąca.
+  dzienObciazenia: "5. dnia miesiąca",
+
+  // Do potwierdzenia. Cennik mówi o 10 miesiącach treningowych,
+  // ale nie wskazuje, które są wyłączone.
   miesiaceWylaczone: UZUPELNIC,
 
   terminZwrotu: "14 dni",
@@ -309,15 +312,22 @@ export const OPERATOR_PLATNOSCI = {
   nip: "7792369887",
   regon: "301345068",
   sad: "Sąd Rejonowy Poznań Nowe Miasto i Wilda w Poznaniu, VIII Wydział Gospodarczy Krajowego Rejestru Sądowego",
-  kapitalZakladowy: "5 476 300,00 zł, wpłacony w całości",
+  kapitalZakladowy: "4 737 100,00 zł, opłacony w całości",
   nadzor:
     "Krajowy rejestr dostawców usług płatniczych prowadzony przez Komisję Nadzoru Finansowego, numer wpisu IP24/2014",
+} as const;
+
+/** Rachunek do przelewu tradycyjnego, dla osób, które nie płacą online. */
+export const RACHUNEK = {
+  numer: "66 1020 2472 0000 6202 0781 4983",
+  tytulPrzyklad: "Jan Kowalski, Wodzisław, wrzesień 2026",
 } as const;
 
 export const METODY_PLATNOSCI = [
   "BLIK, w tym płatność cykliczna dla składek miesięcznych",
   "Przelew online z konta bankowego",
   "Karta płatnicza, Visa oraz Mastercard",
+  "Przelew tradycyjny na rachunek bankowy spółki",
 ];
 
 /* ------------------------------------------------------------------ */

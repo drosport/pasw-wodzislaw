@@ -12,6 +12,7 @@ import {
   OPERATOR_PLATNOSCI,
   PLATNOSCI,
   KATEGORIE,
+  RACHUNEK,
   SKLADKA,
   WPISOWE,
   SPOLKA,
@@ -86,6 +87,28 @@ export default function Platnosci() {
                 <dd>{OPERATOR_PLATNOSCI.kapitalZakladowy}</dd>
                 <dt>Nadzór</dt>
                 <dd>{OPERATOR_PLATNOSCI.nadzor}</dd>
+              </dl>
+            </div>
+
+            <div className="blok-danych" style={{ marginTop: "24px" }}>
+              <h3>Przelew tradycyjny</h3>
+              <p className="tekst-drugi" style={{ fontSize: "0.95rem" }}>
+                Jeżeli wolisz zapłacić zwykłym przelewem, wpłać na rachunek
+                spółki. Ta forma nie obejmuje obciążeń cyklicznych, przelew
+                trzeba wykonywać co miesiąc samodzielnie.
+              </p>
+              <dl className="lista-danych" style={{ marginTop: "20px" }}>
+                <dt>Odbiorca</dt>
+                <dd>{SPOLKA.nazwaSkrocona}</dd>
+                <dt>Rachunek</dt>
+                <dd>{RACHUNEK.numer}</dd>
+                <dt>Tytuł</dt>
+                <dd>
+                  Imię i nazwisko uczestnika, Wodzisław, okres płatności.
+                  Na przykład: {RACHUNEK.tytulPrzyklad}
+                </dd>
+                <dt>Termin</dt>
+                <dd>Do {PLATNOSCI.dzienObciazenia}</dd>
               </dl>
             </div>
           </div>
