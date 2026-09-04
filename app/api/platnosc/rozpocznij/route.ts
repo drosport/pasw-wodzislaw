@@ -126,6 +126,10 @@ export async function POST(zadanie: Request) {
     ["Treningi w tygodniu", String(treningi)],
     ["Forma rozliczenia", forma],
     ["Pozycje", zamowienie.pozycje.map((p) => `${p.nazwa}, ${p.kwota} zł`).join("\n")],
+    [
+      "Opłata wpisowa",
+      nowyUczestnik ? "naliczona, pierwszy zapis" : "nie naliczona, deklaracja o wcześniejszym uczestnictwie",
+    ],
     ["Do zapłaty", `${zamowienie.doZaplatyTeraz} zł`],
     [
       "Obciążenie cykliczne",

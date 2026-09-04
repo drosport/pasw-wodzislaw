@@ -289,9 +289,7 @@ export const PLATNOSCI = {
   // Cennik 2026/2027: płatność miesięczna do 5. dnia każdego miesiąca.
   dzienObciazenia: "5. dnia miesiąca",
 
-  // Do potwierdzenia. Cennik mówi o 10 miesiącach treningowych,
-  // ale nie wskazuje, które są wyłączone.
-  miesiaceWylaczone: UZUPELNIC,
+  miesiaceWylaczone: "lipiec i sierpień",
 
   terminZwrotu: "14 dni",
   terminReklamacji: "14 dni",

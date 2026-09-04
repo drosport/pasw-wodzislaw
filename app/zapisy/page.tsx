@@ -17,7 +17,14 @@ export const metadata: Metadata = {
     "Wybierz formę rozliczenia, podaj dane uczestnika i opłać zajęcia. Płatność obsługuje PayPro S.A., operator serwisu Przelewy24.",
 };
 
-export default function StronaZapisow() {
+export default async function StronaZapisow({
+  searchParams,
+}: {
+  searchParams: Promise<{ wpisowe?: string }>;
+}) {
+  const { wpisowe } = await searchParams;
+  const bezWpisowego = wpisowe === "nie";
+
   return (
     <>
       <NaglowekStrony
@@ -30,7 +37,7 @@ export default function StronaZapisow() {
         <div className="kontener">
           <div className="uklad-tresci">
             <div>
-              <Zapisy />
+              <Zapisy bezWpisowego={bezWpisowego} />
             </div>
 
             <div>

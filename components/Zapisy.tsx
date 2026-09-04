@@ -39,7 +39,12 @@ function kwotaFormy(
   return `${zl(po)} jednorazowo`;
 }
 
-export default function Zapisy() {
+export default function Zapisy({
+  bezWpisowego = false,
+}: {
+  /** Ustawiane odnośnikiem /zapisy?wpisowe=nie, dla obecnych kursantów. */
+  bezWpisowego?: boolean;
+}) {
   const [etap, ustawEtap] = useState<Etap>(1);
   const [wysylanie, ustawWysylanie] = useState(false);
   const [blad, ustawBlad] = useState("");
@@ -48,7 +53,7 @@ export default function Zapisy() {
   const [forma, ustawForme] = useState<FormaRozliczenia>("skladka");
   const [kategoria, ustawKategorie] = useState<Kategoria>("dzieci");
   const [treningi, ustawTreningi] = useState<1 | 2>(1);
-  const [nowyUczestnik, ustawNowyUczestnik] = useState(true);
+  const [nowyUczestnik, ustawNowyUczestnik] = useState(!bezWpisowego);
 
   const [imie, ustawImie] = useState("");
   const [nazwisko, ustawNazwisko] = useState("");
@@ -274,7 +279,7 @@ export default function Zapisy() {
                   <span>
                     <span className="wybor-nazwa">Trenuję już u nas</span>
                     <span className="wybor-opis">
-                      Opłata wpisowa została już wniesiona wcześniej.
+                      Opłata wpisowa Cię nie dotyczy, nie doliczamy jej.
                     </span>
                   </span>
                 </label>
